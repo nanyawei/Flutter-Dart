@@ -63,11 +63,12 @@ class MyApp extends StatelessWidget {
                     arguments: CateKind('湖', '蛋糕')
                   );
                 } else if (icon == (Icons.movie)) {
-                  print('aaa');
                   Navigator.pushNamed(
                     context,
                     pageMovieList
                   );
+                } else if (icon == (Icons.share)) {
+                  Navigator.pushNamed(context, pageShare);
                 }
               },
               child: Text(
