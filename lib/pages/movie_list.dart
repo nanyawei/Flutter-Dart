@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_test/constants/constants.dart';
 import 'package:flutter_app_test/service/service.dart';
 import 'dart:convert';
+import 'package:flutter_app_test/constants/movie.dart';
 
 String url = '/v2/movie/top250';
 
@@ -10,8 +10,7 @@ class MoviePage extends StatefulWidget {
 }
 
 class _MovieState extends State<MoviePage> {
-  dynamic top250;
-  List topList;
+  movie top250;
 
   @override
   void initState () {
@@ -19,23 +18,21 @@ class _MovieState extends State<MoviePage> {
     _getList();
   }
 
-  void _getList  () async {
+  _getList () async {
     HttpUtil.get(
       url,
       data: {
         'start': 0,
-        'count': 1
+        'count': 250
       }, 
       success: (r) {
-        // final rMap = json.decode(r);
-        var movie = Movie.fromJson( json.decode(r) );
-
-        print(movie);
-        print('......');
+        String jsonStr = json.encode(r);
+        Map<String, dynamic> jsonMap = json.decode(jsonStr);
+        movie data = movie.fromJson(jsonMap);
+        print(data);
         setState(() {
-          top250 = movie;
+          top250 = data;
         });
-
       },
       error: (e) {
         print('错误提示：$e');
@@ -43,17 +40,54 @@ class _MovieState extends State<MoviePage> {
     );
   }
 
-
   @override 
   Widget build (BuildContext build) {
-  
-
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('list'),
+        title: Text('Top 250'),
       ),
-      body: Text('1'),
+      body: top250 == null ?
+            Center(child: Text('loading...'),) :
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              child: GridView.count(
+                crossAxisCount: 3,
+                childAspectRatio: 0.7,
+                children: List.generate(top250.subjects.length, (index) {
+                  return movieItem(top250.subjects[index]);
+                }),
+              ),
+            )
+    );
+  }
+
+  Container movieItem (Subjects subject) {
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      child: Stack(
+        overflow: Overflow.clip,
+        fit: StackFit.expand,
+        children: <Widget>[
+          Image.network(
+            subject.images.large,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            bottom: 10.0,
+            left: 10.0,
+            right: 10.0,
+            child: Center(
+              child: Text(
+                subject.title,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  background: Paint()..color = Colors.white,
+                )
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
