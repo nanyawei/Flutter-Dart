@@ -1,16 +1,15 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-
-class BaseUrl {
-  static const String url = 'http://t.yushu.im';
-}
-
+import 'package:flutter_dart/common/global.dart';
 
 class HttpUtil {
+
   static void get (
     String url, 
     {
       Map<String, dynamic> data,
-      Map<String, dynamic> headers,
+      Map<String, dynamic>  headers,
       Function success,
       Function error
     }
@@ -40,12 +39,46 @@ class HttpUtil {
     String url,
     {
       Map<String, dynamic> data,
-      Map<String, dynamic> headers,
+      Map<String, dynamic>  headers,
       Function success,
       Function error
     }
   ) async {
     await _sendRequest(url, 'post', success, data: data, headers: headers, error: error);
+  }
+
+  static Dio dio = Dio(BaseOptions(
+    // baseUrl: 'https://dev-api.quantibio.com',
+    baseUrl: 'http://t.yushu.im',
+    connectTimeout: 10000, // 服务器链接超时，毫秒
+    receiveTimeout: 3000, // 响应流上前后俩次接收到数据的间隔，毫秒
+    contentType: 'application/json'
+  ));
+
+
+  static void init() {
+    dio.options.headers[HttpHeaders.authorizationHeader] = Global.profile.jwt;
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (RequestOptions options) {
+        print('-------------- 拦截器 S --------------');
+        // 为每个请求头都增加user-agent
+        // options.headers['user-agent'] = 'Custom-UA';
+
+        // 检查是否有token，没有则直接报错
+        if (options.headers['authorizationHeader'] == null) {
+          return dio.reject('ERROR： 请先登录');
+        }
+
+        // 检查缓存是否有数据
+        // if (options.uri == Uri.parse('http://xxx.com/file1')) {
+        //   return dio.resolve('返回缓存数据');
+        // }
+
+        // 放行请求
+        print('-------------- 拦截器 E --------------');
+        return options;
+      }
+    ));
   }
 
 
@@ -55,7 +88,7 @@ class HttpUtil {
     Function success,
     {
       Map<String, dynamic> data,
-      Map<String, dynamic> headers,
+      Map<String, dynamic>  headers,
       Function error
     }
   ) async {
@@ -64,9 +97,11 @@ class HttpUtil {
     var _backData;
 
     // 检测请求地址是否完整地址
-    if ( !url.startsWith('http') ) {
-      url = BaseUrl.url + url;
-    }
+    // if ( !url.startsWith('http') ) {
+    //   url = BaseUrl.url + url;
+    // }
+      url = url;
+
 
     try {
       Map<String, dynamic> dataMap = data ?? new Map();
@@ -74,9 +109,7 @@ class HttpUtil {
 
       // 配置dio请求信息
       Response response;
-      Dio dio = new Dio();
-      dio.options.connectTimeout = 10000; // 服务器链接超时，毫秒
-      dio.options.receiveTimeout = 3000;  // 响应流上前后俩次接收到数据的间隔，毫秒
+      // Dio dio = new Dio();
       dio.options.headers.addAll(headersMap);
 
       if (method == 'get') {
@@ -93,6 +126,8 @@ class HttpUtil {
 
       // 返回处理结果
       Map<String, dynamic> resCallbackMap = response.data;
+
+      print(resCallbackMap);
 
       _code = resCallbackMap['code'];
       _msg = resCallbackMap['msg'];
