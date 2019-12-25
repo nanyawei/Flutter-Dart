@@ -1,0 +1,6 @@
+{
+  "app_title": "APP标题",
+  "main_title": "主标题",
+  "message_tip": "点击按钮次数：$count",
+  "picture_url": "images/cake.png"
+}
