@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_test/service/service.dart';
+import 'package:flutter_dart/router/index.dart';
+import 'package:flutter_dart/service/service.dart';
 import 'dart:convert';
-import 'package:flutter_app_test/constants/movie.dart';
+import 'package:flutter_dart/constants/movie.dart';
 
 String url = '/v2/movie/top250';
 
@@ -29,7 +30,6 @@ class _MovieState extends State<MoviePage> {
         String jsonStr = json.encode(r);
         Map<String, dynamic> jsonMap = json.decode(jsonStr);
         movie data = movie.fromJson(jsonMap);
-        print(data);
         setState(() {
           top250 = data;
         });
@@ -42,6 +42,7 @@ class _MovieState extends State<MoviePage> {
 
   @override 
   Widget build (BuildContext build) {
+    print(top250);
     return Scaffold(
       appBar: AppBar(
         title: Text('Top 250'),
@@ -61,33 +62,42 @@ class _MovieState extends State<MoviePage> {
     );
   }
 
+  void _handleTap (int id) {
+    final String detailId = id.toString();
+    Navigator.pushNamed(context, pageMovieDetail, arguments: detailId);
+  }
+
   Container movieItem (Subjects subject) {
     return Container(
       padding: const EdgeInsets.all(5.0),
-      child: Stack(
-        overflow: Overflow.clip,
-        fit: StackFit.expand,
-        children: <Widget>[
-          Image.network(
-            subject.images.large,
-            fit: BoxFit.cover,
-          ),
-          Positioned(
-            bottom: 10.0,
-            left: 10.0,
-            right: 10.0,
-            child: Center(
-              child: Text(
-                subject.title,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  background: Paint()..color = Colors.white,
-                )
-              ),
+      child: GestureDetector(
+        onTap: () => _handleTap(subject.id),
+        child: Stack(
+          overflow: Overflow.clip,
+          fit: StackFit.expand,
+          children: <Widget>[
+            Image.network(
+              subject.images.large,
+              fit: BoxFit.cover,
             ),
-          )
-        ],
-      ),
+            
+            Positioned(
+              bottom: 10.0,
+              left: 10.0,
+              right: 10.0,
+              child: Center(
+                child: Text(
+                  subject.title,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    background: Paint()..color = Colors.white,
+                  )
+                ),
+              ),
+            )
+          ],
+        ),
+      )
     );
   }
 }
