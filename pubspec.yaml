@@ -1,4 +1,4 @@
-name: flutter_app_test
+name: flutter_dart
 description: A new Flutter application.
 
 # The following defines the version and build number for your application.
@@ -19,21 +19,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  json_annotation: ^3.0.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  provider: ^3.2.0
   cupertino_icons: ^0.1.2
   english_words: ^3.1.0
-  dio: any
+  dio: ^3.0.7
+  shared_preferences: ^0.4.2
+  json_annotation: ^2.3.0
+  flutter_localizations:               #Flutter i18n依赖flutter_localizations插件包
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  json_serializable: ^3.2.0
-  build_runner: ^1.6.5
+  json_model: #latest version
+  build_runner: ^1.6.9
+  json_serializable: ^2.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -55,7 +55,7 @@ flutter:
     - images/1.jpg
     - images/lake.jpg
     - images/cake.png
-
+    - images/googleIcon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
