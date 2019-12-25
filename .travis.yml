@@ -47,6 +47,8 @@ matrix:
     - os: osx
     language: objective-c
     osx_image: xcode10.2
+    before_script:
+      - pod repo update
     script:
       - flutter doctor && flutter -v build ios --no-codesign
     # 对发布前的构建产物进行预处理，打包成ipa
@@ -67,3 +69,6 @@ inatall:
     - git clone https://github.com/flutter/flutter.git
     - export PATH="$PATH:`pwd`/flutter/bin"
 
+cache:
+  directories:
+    - $HOME/.pub-cache
