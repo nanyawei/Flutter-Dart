@@ -6,6 +6,8 @@ import 'package:flutter_dart/constants/constants.dart';
 import 'package:flutter_dart/constants/todo.dart';
 import 'package:flutter_dart/router/index.dart';
 
+import 'zhihu/index.dart';
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -115,7 +117,7 @@ class _MyAppState extends State<MyApp> {
     Widget widgetVisible = AnimatedOpacity(
       opacity: _visible ? 1.0 : 0.0,
       duration: Duration(milliseconds: 500),
-      child: Container(width: 200, height: 50, color: Colors.green, padding: EdgeInsets.only(bottom: 20.0),),
+      child: Container(width: 200, height: 50, color: Colors.green, padding: EdgeInsets.only(bottom: 20.0),child: OutlineButton(child: Text('豆瓣'),onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ZhiHuPage())))),
     );
 
     Drawer myDrawer() {

@@ -20,6 +20,7 @@ Widget myApp = MaterialApp(
     primarySwatch: Colors.lightBlue,
     // brightness: Brightness.dark
   ),
+  title: '设置的title',
   routes: RoutePath,
   home: MyApp(),
   // onGenerateRoute: (RouteSettings settings) {
