@@ -29,5 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- permission_handler 插件添加 S  -->
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.CAMERA"/>
+        <!-- 这个权限用于进行网络定位 -->
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+        <!-- 这个权限用于访问GPS定位 -->
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        <!-- permission_handler 插件添加 E  -->
+
     </application>
 </manifest>
