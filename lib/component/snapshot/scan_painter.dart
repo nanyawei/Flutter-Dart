@@ -14,6 +14,8 @@ class ScanPainter extends CustomPainter {
     if (_paint == null) {
       initPaint();
     }
+    canvas.drawColor(Color.fromRGBO(0, 0, 0, 0.7), BlendMode.darken);
+
     double width = size.width;
     double height = size.height;
 
@@ -54,7 +56,6 @@ class ScanPainter extends CustomPainter {
     _paint.color = scanColor;
 
     final scanRect = Rect.fromLTWH(left + 5, top + 10 + (value * (boxHeight - 20)), boxWidth - 5, 1);
-    // canvas.drawLine(Offset(0, left), Offset(left, right), _paint);
 
     _paint.shader = LinearGradient(colors: <Color>[
       // Colors.white54,
