@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dart/router/index.dart';
 
-import 'pages/index.dart';
 import 'package:flutter_dart/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'pages/scan.dart';
 
 Widget myApp = MaterialApp(
   // home: Global.profile.user != null ? MyApp() : LoginPage(),
@@ -22,7 +23,7 @@ Widget myApp = MaterialApp(
   ),
   title: '设置的title',
   routes: RoutePath,
-  home: MyApp(),
+  home: MyCodePage(),
   // onGenerateRoute: (RouteSettings settings) {
   //   print('build route for ${settings.name}');
   //   var routes = <String, WidgetBuilder>{
